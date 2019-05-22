@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.Promise;
 
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.util.Base64;
 import android.security.KeyPairGeneratorSpec;
 import android.os.Build;
 
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.security.auth.x500.X500Principal;
 
+@ReactModule(name="RNSecureKeyStore")
 public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
@@ -86,7 +89,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       cipher.init(Cipher.ENCRYPT_MODE, publicKey);
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       CipherOutputStream cipherOutputStream = new CipherOutputStream(outputStream, cipher);
-      cipherOutputStream.write(input.getBytes("UTF-8"));
+      cipherOutputStream.write(input.getBytes(StandardCharsets.UTF_8));
       cipherOutputStream.close();
       byte[] vals = outputStream.toByteArray();
 
